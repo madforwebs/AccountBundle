@@ -1,0 +1,38 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    <style>
+        td.sonata-ba-list-field.sonata-ba-list-field-string {
+            overflow-y: hidden;
+        }
+        td>span{
+            top: 300px;
+            /*position: relative;*/
+            /*margin-top: 98px;*/
+            /*padding-top: 500px;*/
+            overflow-y: hidden;
+        }
+    </style>
+
+
+    {% set year = app.session.get('selected_year.id') %}
+
+    {% set paid = 0 %}
+    {% set pending = 0 %}
+
+    {% for expenditure in object.expenditures if (expenditure.year.id == year)%}
+
+        {% if expenditure.status == 'paid' %}
+            {% set paid = paid + expenditure.total %}
+        {% else %}
+            {% set pending = pending + expenditure.total %}
+
+        {% endif %}
+
+    {% endfor %}
+
+    {{ paid|number_format(2,",", ".")  }}
+    <span id="{{ object.name }}">
+{##{{ object.name }}#}
+    </span>
+{% endblock %}

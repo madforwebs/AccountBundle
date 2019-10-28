@@ -1,0 +1,2 @@
+parameters:
+  account.handler.class: MadForWebs\AccountBundle\Service\AccountHandler

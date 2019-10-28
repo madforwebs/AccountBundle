@@ -1,0 +1,36 @@
+{#{{ dump(form.parent.vars.data) }}#}
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+
+
+{% if object.id is not null %}
+    {% if object.status == 'paid' %}
+
+        <span class="col-md-4">
+            <a href="{{ url('_admin.core.expenditure.sendToPending', {'expenditure': object.id}) }}" class="btn btn-sm btn-default" title="{{ 'help.list.expenditure.provider'|trans|capitalize }}">
+              <i class="fa fa-times"></i>
+            </a>
+        </span>
+        <span class="col-md-6">
+            {{ object.total|number_format(2,".",",") }}<br/>
+            {{ object.wayToPay|trans|capitalize }}
+        </span>
+
+    {% else %}
+        <span class="col-md-2">
+
+        </span>
+        <span class="col-md-10">
+            <a href="{{ url('_admin.core.expenditure.pay', {'expenditure': object.id}) }}" class="btn btn-sm btn-default">
+            {{ 'pay'|trans|capitalize }}
+        </a>
+        </span>
+
+    {% endif %}
+    <span class="hidden" name="status">
+        {{ object.status }}
+    </span>
+{% endif %}

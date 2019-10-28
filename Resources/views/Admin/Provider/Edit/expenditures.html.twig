@@ -1,0 +1,141 @@
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+
+{% set year = app.session.get('selected_year.id') %}
+
+{% set paid = 0 %}
+{% set pending = 0 %}
+
+<div class="table-responsive">
+
+    <a href="{{ url('admin_core_expenditure_create',{'objectId': object.id,'code':'core.admin.provider'}) }}" class="btn btn-danger">
+        {{ 'new expenditure'|trans|capitalize }}
+    </a>
+
+    <table id="table-summary-expenditures" class="table table-bordered table-hover ">
+        <thead>
+        <tr>
+            <th>{{ 'concept'|trans|capitalize }}</th>
+            <th>{{ 'date buy'|trans|capitalize }}</th>
+            <th>{{ 'quantity'|trans|capitalize }}</th>
+            <th>{{ 'vat'|trans|capitalize }}</th>
+            <th>{{ 'irpf'|trans|capitalize }}</th>
+            <th>{{ 'total'|trans|capitalize }}</th>
+            <th>{{ 'way to pay'|trans|capitalize }}</th>
+            <th>{{ 'date paid'|trans|capitalize }}</th>
+            <th>{{ 'account'|trans|capitalize }}</th>
+            <th>{{ 'actions'|trans|capitalize }}</th>
+        </tr>
+        </thead>
+
+        {% for expenditure in object.expenditures  if (expenditure.year.id == year)%}
+            <tr>
+                <td>
+                    {{ expenditure.concept }}
+                </td>
+                <td>
+                     <span class="hidden" name="status">
+                        {{ expenditure.dateBuy|date('Ymd') }}
+                    </span>
+                    {{ expenditure.dateBuy|date('d \\d\\e F \\d\\e Y')|replace({
+                        'January'  : 'Enero',
+                        'February'  : 'Febrero',
+                        'March'  : 'Marzo',
+                        'April'  : 'Abril',
+                        'May'  : 'Mayo',
+                        'June'  : 'Junio',
+                        'July'  : 'Julio',
+                        'August'  : 'Agosto',
+                        'September'  : 'Septiembre',
+                        'October'  : 'Octubre',
+                        'November'  : 'Noviembre',
+                        'December'  : 'Diciembre',
+                    }) }}
+                </td>
+                <td>
+                    {{ expenditure.quantity|number_format(2,",",".") }}
+                </td>
+                <td>
+                    {{ expenditure.vat|number_format(2,",",".") }}
+                </td>
+                <td>
+                    {{ ((object.irpf * expenditure.quantity)/100)|number_format(2,",",".") }}
+                </td>
+                <td>
+                    {{ expenditure.total|number_format(2,",",".") }}
+                </td>
+                <td>
+                    {% if expenditure.status == 'paid' %}
+                        {{ expenditure.total|number_format(2,",",".") }}<br/>
+                        {{ expenditure.wayToPay|trans|capitalize }}
+                    {% endif %}
+                    <span class="hidden" name="status">
+                        {{ expenditure.status }}
+                    </span>
+                </td>
+                <td>
+                    {% if expenditure.datePaid is not null %}
+                        <span class="hidden" name="status">
+                            {{ expenditure.datePaid|date('Ymd') }}
+                        </span>
+                        {{ expenditure.datePaid|date('d \\d\\e F \\d\\e Y')|replace({
+                            'January'  : 'Enero',
+                            'February'  : 'Febrero',
+                            'March'  : 'Marzo',
+                            'April'  : 'Abril',
+                            'May'  : 'Mayo',
+                            'June'  : 'Junio',
+                            'July'  : 'Julio',
+                            'August'  : 'Agosto',
+                            'September'  : 'Septiembre',
+                            'October'  : 'Octubre',
+                            'November'  : 'Noviembre',
+                            'December'  : 'Diciembre',
+                        }) }}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ expenditure.account }}
+                </td>
+                <td>
+                    {% if expenditure.status == 'paid' %}
+                        <a href="{{ url('_admin.core.expenditure.sendToPending', {'expenditure': expenditure.id}) }}"
+                           class="btn btn-sm btn-default"
+                           title="{{ 'help.list.expenditure.provider'|trans|capitalize }}">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ url('_admin.core.expenditure.pay', {'expenditure': expenditure.id}) }}"
+                           class="btn btn-sm btn-default">
+                            {{ 'pay'|trans|capitalize }}
+                        </a>
+                    {% endif %}
+                    <a href="{{ url('admin_core_expenditure_edit', {'id': expenditure.id}) }}" class="btn btn-sm btn-default"
+                       title="{{ 'edit.expenditure.provider'|trans|capitalize }}">
+                        <i class="fa fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <script>
+        $(function () {
+            $('#table-summary-expenditures').DataTable(
+                {
+                    "order": [[1, "desc"]],
+                    dom: 'Bfrtip',
+                    "pageLength": 100
+                }
+            );
+
+
+        });
+    </script>

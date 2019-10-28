@@ -1,0 +1,16 @@
+{% set suma = 0 %}
+{% for account in attr['accounts'] %}
+    {% set suma = suma + account.balance %}
+    <div class="row">
+        <span class="col-md-9 text-right"><h5>{{ account.name|capitalize }}:</h5></span>
+        <span class="col-md-1 text-right border-bottom"><h5>{{ account.balance|number_format("2",",",".") }}</h5></span>
+    </div>
+
+
+{% endfor %}
+<div class="row">
+    <span class="col-md-9 text-right"><h4>Suma total: </h4></span>
+    <span class="col-md-1 text-right"><h4>{{ suma|number_format("2",",",".") }}</h4></span>
+</div>
+
+

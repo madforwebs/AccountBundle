@@ -1,0 +1,163 @@
+<script src="/assets/js/main.bundled.js"></script>
+
+
+<script>
+     $(function () {
+
+
+         var contRows = 0;
+         $("[name$='[quantity]']").each(function(){
+             $(this).change({contRows: contRows},function(event){
+                 var contRowsTmp = event.data.contRows;
+                 var base = parseFloat($(this).val().replace(',', '.'));
+                 var vat = 0;
+                 var irpf = 0;
+                 base = parseFloat(base);
+                 $("[name$='[vat]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     vat = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 irpf = parseFloat(irpf);
+                 $("[name$='[irpf]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     irpf = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 if(irpf >= 0) {
+                     irpf = ( base * irpf)/100;
+                 }else{
+                     irpf = 0;
+                 }
+
+
+                 var result =(parseFloat(base + vat - irpf)).toFixed(2);
+                 $("[name$='[total]']").each(function(){
+                     $(this).val( result);
+                     $(this).val( $(this).val().replace('.', ',') );
+                 });
+             });
+             contRows = contRows + 1;
+         });
+
+         var contRows = 0;
+         $("[name$='[vat]']").each(function(){
+             $(this).change({contRows: contRows},function(event){
+                 var contRowsTmp = event.data.contRows;
+                 var vat = parseFloat($(this).val().replace(',', '.'));
+
+                 if(vat >= 0) {
+
+                 }else{
+                     vat = 0;
+                 }
+
+                 var base = 0;
+                 var irpf = 0;
+                 base = parseFloat(base);
+                 $("[name$='[quantity]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     base = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 irpf = parseFloat(irpf);
+                 $("[name$='[irpf]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     irpf = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 if(irpf >= 0) {
+                     irpf = ( base * irpf)/100;
+                 }else{
+                     irpf = 0;
+                 }
+
+                 var result =(parseFloat(base + vat - irpf)).toFixed(2);
+                 $("[name$='[total]']").each(function(){
+                     $(this).val( result);
+                     $(this).val( $(this).val().replace('.', ',') );
+                 });
+             });
+             contRows = contRows + 1;
+         });
+
+         var contRows = 0;
+         $("[name$='[total]']").each(function(){
+             // console.log(contRows);
+             $(this).change({contRows: contRows},function(event){
+                 var contRowsTmp = event.data.contRows;
+                 var total = parseFloat($(this).val().replace(',', '.'));
+                 var base = 0;
+                 var irpf = 0;
+                 base = parseFloat(base);
+                 $("[name$='[quantity]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     base = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 irpf = parseFloat(irpf);
+                 $("[name$='[irpf]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     irpf = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+                 if(irpf >= 0) {
+                     irpf = ( base * irpf)/100;
+                 }else{
+                     irpf = 0;
+                 }
+
+                 var result =(parseFloat(total - base + irpf)).toFixed(2);
+                 $("[name$='[vat]']").each(function(){
+                     $(this).val( result);
+                     $(this).val( $(this).val().replace('.', ',') );
+                 });
+             });
+             contRows = contRows + 1;
+         });
+
+
+
+         var contRows = 0;
+         $("[name$='[irpf]']").each(function(){
+             // console.log(contRows);
+             $(this).change({contRows: contRows},function(event){
+                 var contRowsTmp = event.data.contRows;
+                 var irpf = parseFloat($(this).val().replace(',', '.'));
+
+
+
+                 var base = 0;
+                 base = parseFloat(base);
+                 $("[name$='[quantity]']").each(function(){
+                     $(this).val( $(this).val().replace(",","."));
+                     base = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+
+                 if(irpf >= 0) {
+                     irpf = ( base * irpf)/100;
+                 }else{
+                     irpf = 0;
+                 }
+
+                 // var result =(parseFloat(total - base)).toFixed(2);
+                 $("[name$='[vat]']").each(function(){
+                     // $(this).val( result);
+                     vat = parseFloat($(this).val().replace(',', '.'));
+                 });
+
+
+                 var result =(parseFloat(base + vat - irpf)).toFixed(2);
+                 $("[name$='[total]']").each(function(){
+                     $(this).val( result);
+                     $(this).val( $(this).val().replace('.', ',') );
+                 });
+             });
+             contRows = contRows + 1;
+         });
+
+     });
+</script>
+
+

@@ -1,0 +1,19 @@
+{#{{ dump(form.parent.vars.data) }}#}
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+
+
+{% if object.id is not null %}
+    <a href="{{ url('admin_core_income_edit', {'id': object.id}) }}" class="btn btn-sm btn-default"
+       title="{{ 'edit.earning.account'|trans|capitalize }}">
+        <i class="fa fa-pen"></i>
+    </a>
+
+    <a href="{{ url('admin_core_income_delete', {'id': object.id}) }}" class="btn btn-sm btn-default"
+       title="{{ 'delete.earning.account'|trans|capitalize }}">
+        <i class="fa fa-trash"></i>
+    </a>
+{% endif %}

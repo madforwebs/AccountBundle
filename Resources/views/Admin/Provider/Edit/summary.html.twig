@@ -1,0 +1,41 @@
+
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+
+{% set year = app.session.get('selected_year.id') %}
+
+{% set paid = 0 %}
+{% set pending = 0 %}
+
+{% for expenditure in object.expenditures  if (expenditure.year.id == year)%}
+
+    {% if expenditure.status == 'paid' %}
+        {% set paid = paid + expenditure.total %}
+    {% else %}
+        {% set pending = pending + expenditure.total %}
+
+    {% endif %}
+
+{% endfor %}
+
+
+
+<div class="box-footer">
+    <div class="row">
+        <div class="col-md-6 col-xs-6 bg-blue box-header with-border">
+
+            <h1>{{ 'paid'|trans|capitalize }}</h1>
+            <span id="totalPaid">{{ paid|number_format(2,".",",") }}</span>
+        </div>
+
+        <div class="col-md-6 col-xs-6 bg-olive box-header with-border">
+            <h1>{{ 'pending'|trans|capitalize }}</h1>
+            <span id="totalPending">{{ pending|number_format(2,".",",") }}</span>
+        </div>
+    </div>
+</div>
+
+{#{{ dump(object) }}#}

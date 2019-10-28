@@ -1,0 +1,168 @@
+<script src="/assets/js/main.bundled.js"></script>
+
+
+<script>
+    $(function () {
+
+
+
+//alert('provider');
+
+
+
+        // Para la edicion del listado del proveedor
+        var contRows = 0;
+        $("[name$='[quantity]']").each(function(){
+            // console.log(contRows);
+            $(this).change({contRows: contRows},function(event){
+                var contRowsTmp = event.data.contRows;
+                var base = parseFloat($(this).val().replace(',', '.'));
+                var vat = 0;
+                base = parseFloat(base);
+                $("[id$='_expenditures_"+contRowsTmp+"_vat'").each(function(){
+                    $(this).val( $(this).val().replace(",","."));
+                    vat = parseFloat($(this).val().replace(',', '.'));
+                });
+
+                var result =(parseFloat(base + vat)).toFixed(2);
+                $("[name$='["+contRowsTmp+"][total]']").each(function(){
+                    $(this).val( result);
+                    $(this).val( $(this).val().replace('.', ',') );
+                });
+            });
+            contRows = contRows + 1;
+        });
+
+
+
+
+
+
+        // Para la edicion del listado del proveedor
+        contRows = 0;
+        $("[name$='[vat]']").each(function(){
+            // console.log(contRows);
+            $(this).change({contRows: contRows},function(event){
+                var contRowsTmp = event.data.contRows;
+                var vat = parseFloat($(this).val().replace(',', '.'));
+                var base = 0;
+                base = parseFloat(base);
+                $("[id$='_expenditures_"+contRowsTmp+"_quantity'").each(function(){
+                    $(this).val( $(this).val().replace(",","."));
+                    base = parseFloat($(this).val().replace(',', '.'));
+                });
+
+                var result =(parseFloat(base + vat)).toFixed(2);
+                $("[name$='["+contRowsTmp+"][total]']").each(function(){
+                    $(this).val( result);
+                    $(this).val( $(this).val().replace('.', ',') );
+                });
+            });
+            contRows = contRows + 1;
+        });
+        // contRows = 0;
+        // $("[name$='[vat]']").each(function(contRows){
+        //     $(this).change(function(){
+        //         var base = $("[name$='["+contRows+"][quantity]']");
+        //         base = parseFloat(base.val().replace(',', '.'));
+        //         var vat = $("[name$='["+contRows+"][vat]']");
+        //         vat = parseFloat(vat.val().replace(',', '.'));
+        //
+        //         var result =(parseFloat(base + vat)).toFixed(2);
+        //         $("[name$='["+contRows+"][total]']").val( result);
+        //         $("[name$='["+contRows+"][total]']").val( $("[name$='["+contRows+"][total]']").val().replace('.', ',') );
+        //     });
+        //     contRows = contRows + 1;
+        // });
+
+
+
+
+        // Para la edicion del listado del proveedor
+        contRows = 0;
+        $("[name$='[total]']").each(function(){
+            // console.log(contRows);
+            $(this).change({contRows: contRows},function(event){
+                var contRowsTmp = event.data.contRows;
+                var total = parseFloat($(this).val().replace(',', '.'));
+                var base = 0;
+                base = parseFloat(base);
+                $("[id$='_expenditures_"+contRowsTmp+"_quantity'").each(function(){
+                    $(this).val( $(this).val().replace(",","."));
+                    base = parseFloat($(this).val().replace(',', '.'));
+                });
+
+                var result =(parseFloat(total - base)).toFixed(2);
+                $("[name$='["+contRowsTmp+"][vat]']").each(function(){
+                    $(this).val( result);
+                    $(this).val( $(this).val().replace('.', ',') );
+                });
+            });
+            contRows = contRows + 1;
+        });
+        // contRows = 0;
+        // $("[name$='[total]']").each(function(contRows){
+        //     $(this).change(function(){
+        //         var base = $("[name$='["+contRows+"][quantity]']");
+        //         base = parseFloat(base.val().replace(',', '.'));
+        //         var total = $("[name$='["+contRows+"][total]']");
+        //         total = parseFloat(total.val().replace(',', '.'));
+        //
+        //         var result =(parseFloat(total - base)).toFixed(2);
+        //         $("[name$='["+contRows+"][vat]']").val( result);
+        //         $("[name$='["+contRows+"][vat]']").val( $("[name$='["+contRows+"][vat]']").val().replace('.', ',') );
+        //     });
+        //     contRows = contRows + 1;
+        // });
+
+        //     $('#totalPending').html(0);
+        //
+        //     var indice = 0;
+        //     $("[id$='_total']").each(function(){
+        //       // $(this).onchange(function(){
+        //
+        //         $("[name='status']").each(function(){
+        //             alert($(this).html());
+        //             if($(this).html() == 'paid'){
+        //                 var total = $('#totalPaid').html();
+        //                 $('#totalPaid').html( parseFloat(total) + parseFloat($(this).val()));
+        //             }else{
+        //                 var total = $('#totalPending').html();
+        //                 $('#totalPending').html( parseFloat(total) + parseFloat($(this).val()));
+        //             }
+        //         });
+        //             // if($("[name='status']")[indice].html() == 'paid'){
+        //             //     var total = $('#totalPaid').html();
+        //             //     $('#totalPaid').html( parseFloat(total) + parseFloat($(this).val()));
+        //             // }else{
+        //             //     var total = $('#totalPending').html();
+        //             //     $('#totalPending').html( parseFloat(total) + parseFloat($(this).val()));
+        //             // }
+        //
+        //       // });
+        //     })
+        //
+    });
+</script>
+
+
+<style>
+    td[class*="_expenditures-total"] {
+        width: 7%;
+    }
+
+    td[class*="_expenditures-vat"] {
+        width: 7%;
+    }
+    td[class*="_expenditures-quantity"] {
+        width: 7%;
+    }
+
+    td[class*="_expenditures-status"] {
+        width: 13%;
+    }
+    td[class*="_expenditures-dateBuy"] {
+        width: 7%;
+    }
+</style>
+

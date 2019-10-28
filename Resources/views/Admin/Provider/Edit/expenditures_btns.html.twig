@@ -1,0 +1,13 @@
+{#{{ dump(form.parent.vars.data) }}#}
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+
+
+{% if object.id is not null %}
+            <a href="{{ url('admin_core_expenditure_edit', {'id': object.id}) }}" class="btn btn-sm btn-default" title="{{ 'edit.expenditure.provider'|trans|capitalize }}">
+              <i class="fa fa-pen"></i>
+            </a>
+{% endif %}

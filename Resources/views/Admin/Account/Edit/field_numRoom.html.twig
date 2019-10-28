@@ -1,0 +1,7 @@
+
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+{{ (object.client is not null) ? object.client.numRoom : ''}}

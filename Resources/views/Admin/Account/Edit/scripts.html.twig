@@ -1,0 +1,55 @@
+<script src="/assets/js/main.bundled.js"></script>
+
+
+<script>
+    $(function () {
+
+
+
+        $('table').each(function(){
+            var item = $(this);
+            var id = item.attr('id');
+            if(
+                // id.match("^DataTables_Table_")
+                (item.attr('id') != 'DataTables_Table_0') &&
+                (item.attr('id') != 'DataTables_Table_1') &&
+                (item.attr('id') != 'DataTables_Table_3') &&
+                (item.attr('id') != 'DataTables_Table_4') &&
+                (item.attr('id') != 'DataTables_Table_5') &&
+                (item.attr('id') != 'DataTables_Table_6') &&
+                (item.attr('id') != 'DataTables_Table_7') &&
+                (item.attr('id') != 'DataTables_Table_8') &&
+                (item.attr('id') != 'DataTables_Table_2')
+            ){
+                // if ( item.isDataTable( 'table' ) ) {
+                    table = item.DataTable({
+                        "order": [[0, "asc"]],
+                        // dom: 'Bfrtip',
+                        "pageLength": 10,
+                        // buttons: [
+                        //     'excel', 'pdf', 'print'
+                        // ],
+                        "language": {
+                            "url": "{{ asset('bundles/web/js/spanish_datatables.json') }}"
+                        },
+                    });
+                // }
+                {#else {#}
+                    {#table = item.DataTable({#}
+                        {#paging: false,#}
+                        {#"language": {#}
+                            {#"url": "{{ asset('bundles/web/js/spanish_datatables.json') }}"#}
+                        {#},#}
+                    {#} );#}
+                {#}#}
+            }
+        });
+
+
+
+
+//        alert('hola');
+    });
+</script>
+
+

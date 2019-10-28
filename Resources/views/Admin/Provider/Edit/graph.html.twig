@@ -1,0 +1,123 @@
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
+{% if object is not defined %}
+    {% set object = form.parent.vars.data %}
+{% endif %}
+
+{% set year = app.session.get('selected_year.id') %}
+
+    <div class="col-md-12">
+        <div style="width:{{ (width is defined) ? width : '50%' }};margin: auto;">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    {#<script src="{{ asset('bundles/mfwweb/js/dataTables-1.10.12/jquery.dataTables.min.js') }}"></script>#}
+    <script src="{{ asset('bundles/admin/js/chart/Chart.bundle.js') }}"></script>
+    <script src="{{ asset('bundles/admin/js/chart/utils.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        {#$('#dataTables-results').DataTable({#}
+            {#"order": [[6, "desc"]],#}
+            {#{% if currentPosition is defined %}#}
+            {#"displayStart": {{ (currentPosition - 5 < 0) ? '0': currentPosition - 5 }},#}
+            {#{% endif %}#}
+            {#"language": {#}
+                {#"url": "{{ asset('bundles/mfwweb/jsons/spanish-datatables.json') }}"#}
+            {#}#}
+        {#});#}
+
+        {#$('#modalButtonCancel').focus();#}
+
+
+        var dataPaid = [];
+        var dataPending = [];
+        var MONTHS = [];
+        {% for expenditure in object.expenditures if (expenditure.year.id == year)%}
+
+                MONTHS.unshift("{{ expenditure.dateBuy|date('d/m/Y') }}");
+
+                {% if expenditure.status == 'paid' %}
+
+                    dataPaid.unshift("{{ expenditure.total }}");
+                    dataPending.unshift("0");
+                {% elseif expenditure.status != 'paid' %}
+                    dataPending.unshift("{{ expenditure.total }}");
+                    dataPaid.unshift("0");
+                {% endif %}
+
+                {#MONTHS['{{ result.dateBuy|date('d/m/Y') }}'] = '{{ result.dateBuy|date('d/m/Y') }}';#}
+        {% endfor %}
+
+
+//            var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var config = {
+            type: 'line',
+            data: {
+//                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: MONTHS,
+                datasets: [{
+                    label: "{{ 'paid'|trans|capitalize }}",
+                    fill: true,
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    data: dataPaid,
+                    fill: false,
+                },{
+                    label: "{{ 'pending'|trans|capitalize }}",
+                    fill: true,
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: dataPending,
+                    fill: false,
+                }
+
+
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: '{{ 'graph'|trans|capitalize }}'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function () {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+    });
+</script>
