@@ -17,10 +17,5 @@
       "email": "fer@madforwebs.com"
     }
   ],
-  "minimum-stability": "master",
-  "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    }
+  "minimum-stability": "master"
 }
