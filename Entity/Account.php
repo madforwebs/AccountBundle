@@ -5,10 +5,7 @@ namespace MadForWebs\AccountBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Account
- *
- * @ORM\Table(name="account")
- * @ORM\Entity(repositoryClass="MadForWebs\AccountBundle\Repository\AccountRepository")
+ * @ORM\MappedSuperclass
  */
 class Account
 {
