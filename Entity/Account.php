@@ -23,26 +23,26 @@ class Account
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var float
      *
      * @ORM\Column(name="balance", type="float",precision=2)
      */
-    private $balance;
+    protected $balance;
     
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**
